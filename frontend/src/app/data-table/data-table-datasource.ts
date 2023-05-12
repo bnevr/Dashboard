@@ -14,7 +14,8 @@ export interface DataTableItem {
 
 // TODO: replace this with real data from your application
 const EXAMPLE_DATA: DataTableItem[] = [
-  {id: 1, date: 'Hydrogen', value: 647815.3, location: 'Dampfkessel'},
+  {id: 1, date: '09.05.2022 07:45', value: 647815.3, location: 'Dampfkessel'},
+  {id: 2, date: '12.05.2022 06:45', value: 647815.3, location: 'Dampfkessel'}
 ];
 
 /**
