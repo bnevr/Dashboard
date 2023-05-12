@@ -49,27 +49,31 @@ export class LineChartComponent {
     if (this.charttype=='diff'){
       this.lineChartData = {
         labels: [
-          'January',
+          '08.05.2023',
           'February',
           'March',
           'April',
           'May',
           'June',
-          'July'
+          'July',
+          'January',
+          'February',
+          'March',
+          'April',
         ],
         datasets: [
           {
             data: [ 22, 44, 66, 84, 56, 55, 40 ],
-            label: 'Series A',
-            fill: false,
+            label: 'Hauptzähler',
+            fill: true,
             tension: 0.5,
             borderColor: 'black',
             backgroundColor: 'rgba(255,0,0,0.3)'
           },
           {
             data: [ 55, 33, 44, 51, 55, 55, 40 ],
-            label: 'Series B',
-            fill: false,
+            label: 'Dampfkessel',
+            fill: true,
             tension: 0.5,
             borderColor: 'black',
             backgroundColor: 'rgba(255,222,0,0.3)'
