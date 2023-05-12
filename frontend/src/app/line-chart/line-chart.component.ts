@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
+import {Input } from '@angular/core';
 
 @Component({
   selector: 'app-line-chart',
@@ -7,8 +8,10 @@ import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
   styleUrls: ['./line-chart.component.scss']
 })
 export class LineChartComponent {
-
+  @Input() charttype : string = '';
   title = 'ng2-charts-demo';
+
+ 
 
   public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [
@@ -43,6 +46,67 @@ export class LineChartComponent {
   }
 
   ngOnInit() {
+    if (this.charttype=='diff'){
+      this.lineChartData = {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July'
+        ],
+        datasets: [
+          {
+            data: [ 22, 44, 66, 84, 56, 55, 40 ],
+            label: 'Series A',
+            fill: false,
+            tension: 0.5,
+            borderColor: 'black',
+            backgroundColor: 'rgba(255,0,0,0.3)'
+          },
+          {
+            data: [ 55, 33, 44, 51, 55, 55, 40 ],
+            label: 'Series B',
+            fill: false,
+            tension: 0.5,
+            borderColor: 'black',
+            backgroundColor: 'rgba(255,222,0,0.3)'
+          }
+        ]
+      }
+    }else {
+      this.lineChartData = {
+        labels: [
+          'January',
+          'February',
+          'March',
+          'April',
+          'May',
+          'June',
+          'July'
+        ],
+        datasets: [
+          {
+            data: [ 99, 88, 11, 33, 98, 55, 40 ],
+            label: 'Series A',
+            fill: true,
+            tension: 0.5,
+            borderColor: 'black',
+            backgroundColor: 'rgba(255,0,0,0.3)'
+          },
+          {
+            data: [ 55, 33, 44, 51, 55, 55, 40 ],
+            label: 'Series B',
+            fill: true,
+            tension: 0.5,
+            borderColor: 'black',
+            backgroundColor: 'rgba(255,222,0,0.3)'
+          }
+        ]
+      }
+    }
   }
 
 }
