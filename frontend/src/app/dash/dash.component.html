@@ -8,9 +8,9 @@
       <app-card title="Card {{i}}"><div>Mini Card Content Here</div></app-card>
     </mat-grid-tile>
     <!--Charts-->
-    <mat-grid-tile *ngFor="let i of [5, 6, 7, 8]" [colspan]="( cardLayout | async )?.chart!.cols"
+    <mat-grid-tile *ngFor="let i of [5, 6]" [colspan]="( cardLayout | async )?.chart!.cols"
       [rowspan]="( cardLayout | async )?.chart!.rows">
-      <app-card title="Card {{i}}"><div>Chart Content Here</div></app-card>
+      <app-card title="Card {{i}}"><app-line-chart></app-line-chart></app-card>
     </mat-grid-tile>
     <!--Table-->
     <mat-grid-tile [colspan]="( cardLayout | async )?.table!.cols" [rowspan]="( cardLayout | async )?.table!.rows">
