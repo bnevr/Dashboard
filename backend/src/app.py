@@ -1,8 +1,9 @@
 from flask import Flask, jsonify, send_from_directory
 from data import loadData
-
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app) 
 
 # Serve the Angular website as static assets
 @app.route('/')

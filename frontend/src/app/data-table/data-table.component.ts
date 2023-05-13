@@ -55,10 +55,6 @@ export class DataTableComponent implements AfterViewInit {
     ];
 
     this.dataSource.data = test;
-    //this.table.dataSource = test;
-
-
-
 
 
 
