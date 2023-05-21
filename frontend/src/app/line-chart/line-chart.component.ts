@@ -38,7 +38,6 @@ loadTotalData() {
     let hauptzahlerData = data.filter(d => d.sensorname === 'Hauptzähler').map(d => d.reading);
     let dampfkesselData = data.filter(d => d.sensorname === 'Dampfkessel').map(d => d.reading);
     let labels = data.map(d => d.time_reading);
-
     labels = labels.filter((_, index) => index %2 ===0)
 
     this.lineChartData = {
@@ -66,6 +65,56 @@ loadTotalData() {
  }
 
  loadDiffData() {
+    this.http.get<any[]>('https://bnevr-cuddly-fishstick-wg6j4w6xjpwh97qg-4200.preview.app.github.dev/assets/api/total.json').subscribe((data: any[]) => {
+      let summedData: { time_reading: string, reading: number, sensorname: string }[] = [];
+      let totalHauptzahler =0
+      let totalDampfkessel =0
+      data.forEach((item: { time_reading: string, reading: number, sensorname: string }) => {
+        let existingItem = summedData.find(d => d.time_reading === item.time_reading);
+  
+        if (item.sensorname==='Hauptzähler') {
+          totalHauptzahler = totalHauptzahler + item.reading
+          summedData.push({ time_reading: item.time_reading, reading: totalHauptzahler, sensorname: item.sensorname });
+        }
+        else {
+          totalDampfkessel = totalDampfkessel + item.reading
+          summedData.push({ time_reading: item.time_reading, reading: totalDampfkessel, sensorname: item.sensorname });
+        }
+          
+      });
+  
+      let hauptzahlerData = summedData.filter(d => d.sensorname === 'Hauptzähler').map(d => d.reading);
+      let dampfkesselData = summedData.filter(d => d.sensorname === 'Dampfkessel').map(d => d.reading);
+      let labels = summedData.map(d => d.time_reading);
+  
+      labels = labels.filter((_, index) => index % 2 === 0);
+  
+      this.lineChartData = {
+        labels: labels,
+        datasets: [
+          {
+            data: hauptzahlerData,
+            label: 'Hauptzähler',
+            fill: true,
+            tension: 0.5,
+            borderColor: 'black',
+            backgroundColor: 'rgba(116, 126, 203,0.2)'
+          },
+          {
+            data: dampfkesselData,
+            label: 'Dampfkessel',
+            fill: true,
+            tension: 0.5,
+            borderColor: 'black',
+            backgroundColor: 'rgba(29, 186, 170,0.2)'
+          }
+        ]
+      };
+    });
+  }
+  
+ /*
+ loadDiffDataOld() {
   this.lineChartData = {
     labels: [
       '01.04.2023',
@@ -118,5 +167,5 @@ loadTotalData() {
       }
     ]
   }
- }
+ }*/
 }
