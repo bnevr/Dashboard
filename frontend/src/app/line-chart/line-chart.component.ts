@@ -1,19 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ChartConfiguration, ChartOptions, ChartType } from "chart.js";
-import {Input } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.scss']
 })
-export class LineChartComponent {
+
+export class LineChartComponent implements OnInit {
   @Input() charttype : string = '';
   title = 'ng2-charts-demo';
 
- 
-
   public lineChartData: ChartConfiguration<'line'>['data'] = {
+    labels: [],
+    datasets: []
+  }
+  public lineChartOptions: ChartOptions<'line'> = {
+    responsive: false
+  };
+  public lineChartLegend = true;
+  public lineChartType: ChartType = 'line';
+  public lineChartPlugins = [];
+
+  /*public lineChartData: ChartConfiguration<'line'>['data'] = {
     labels: [
       '01.04.2023',
       '02.04.2023',
@@ -57,19 +67,11 @@ export class LineChartComponent {
         backgroundColor: 'rgba(255,0,0,0.3)'
       }
     ]
-  };
-  public lineChartOptions: ChartOptions<'line'> = {
-    responsive: false
-  };
-  public lineChartLegend = true;
-  
-  public lineChartType: ChartType = 'line';
-  public lineChartPlugins = [];
+  };*/
 
-  constructor() {
-  }
+  constructor(private http: HttpClient) { }
 
-  ngOnInit() {
+  /*ngOnInit() {
     if (this.charttype=='diff'){
       this.lineChartData = {
         labels: [
@@ -178,5 +180,46 @@ export class LineChartComponent {
       }
     }
   }
+*/
+
+ngOnInit() {
+  if (this.charttype=='diff'){
+    this.loadTotalData();
+  } else {
+    this.loadTotalData();
+  }
+}
+
+loadTotalData() {
+  this.http.get<any[]>('https://bnevr-cuddly-fishstick-wg6j4w6xjpwh97qg-4200.preview.app.github.dev/assets/api/total.json').subscribe((data: any[]) => {
+    let hauptzahlerData = data.filter(d => d.sensorname === 'Hauptzähler').map(d => d.reading);
+    let dampfkesselData = data.filter(d => d.sensorname === 'Dampfkessel').map(d => d.reading);
+    let labels = data.map(d => d.time_reading);
+
+    labels = labels.filter((_, index) => index %2 ===0)
+
+    this.lineChartData = {
+      labels: labels,
+      datasets: [
+        {
+          data: hauptzahlerData,
+          label: 'Hauptzähler',
+          fill: true,
+          tension: 0.5,
+          borderColor: 'black',
+          backgroundColor: 'rgba(116, 126, 203,0.2)'
+        },
+        {
+          data: dampfkesselData,
+          label: 'Dampfkessel',
+          fill: true,
+          tension: 0.5,
+          borderColor: 'black',
+          backgroundColor: 'rgba(29, 186, 170,0.2)'
+        }
+      ]
+    };
+  });
+}
 
 }
